@@ -2,10 +2,10 @@ a = []
 count = 0
 
 def guessnumber(target, start, finish, count  = count):
-    # создание списка случайных чисел по указанному интервалу
+    # создание списка чисел по указанному интервалу 
     for i in range(start, finish+1):
         a.append(i)
-    #индексы первого, последнего и среднего чисел
+    # индексы первого, среднего и последнего чисел
     low = 0
     mid = len(a) // 2
     high = len(a) - 1
@@ -31,3 +31,4 @@ def main(target = int(input()), start = int(input()), finish = int(input())):
     return(target, count)
 
 print(main())
+
