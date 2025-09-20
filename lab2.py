@@ -1,11 +1,11 @@
 a = []
 count = 0
 
-def guessnumber(target, start, finish, count  = count):
+def binguessnumber(target, start, finish, count  = count):
     # создание списка случайных чисел по указанному интервалу
     for i in range(start, finish+1):
         a.append(i)
-    #индексы первого, последнего и среднего чисел
+    # индексы первого, последнего и среднего чисел
     low = 0
     mid = len(a) // 2
     high = len(a) - 1
@@ -18,15 +18,15 @@ def guessnumber(target, start, finish, count  = count):
             high = mid - 1
             count += 1
         mid = (low + high) // 2
-    if low < high:
-        return "no value"
+    if low > high:
+        return(none, none)
     else:
         return(target, count)
 
 
 def main(target = int(input()), start = int(input()), finish = int(input())):
 
-    target, count = guessnumber(target, start, finish)
+    target, count = binguessnumber(target, start, finish)
     
     return(target, count)
 
