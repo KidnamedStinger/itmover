@@ -1,62 +1,67 @@
-a = []
-count = 0
-pref = 0
+def guessnumber(target: int, dist: list[int], pref: str) -> list:
+    """
+    функция угадывания числа по выбранному алгоритму
 
-def linguessnumber(target, start, finish, count = count):
-    """ функция ищет загаданное число линейным поиском и возвращает количество шагов и само число """
+    "linear" - линейный поиск
+    "binary" - бинарный поиск
 
-    for i in range(start, finish+1):
-        a.append(i)
+    """
+    sortdist = sorted(dist)
 
-    for i in range(len(a)):
-        if a[i] == target:
+    count = 0
+
+    if pref == "linear":
+        for number in range(len(dist)):
             count += 1
-            break
-        else:
-            count += 1
-    return(target, count)
-
-
-def binguessnumber(target, start, finish, count = count):
-    
-    """ функция ищет загаданное число бинарным поиском и вовзращает количество шагов и само число """
-    
-    for i in range(start, finish+1):
-        a.append(i)
-        
-    """ индексы первого, среднего и последнего эелементов списка """
-    
-    low = 0
-    mid = len(a) // 2
-    high = len(a) - 1
-    
-    while a[mid] != target and low <= high:
-        
-        if target > a[mid]:
-            low = mid + 1
-            count += 1
-        else:
-            high = mid - 1
-            count += 1
+            if number == target:
+                return number, count
+    elif pref == "binary":
+        low = 0
+        high = len(sortdist) - 1
         mid = (low + high) // 2
-        
-    if low > high:
-        return(none, none)
+        while low <= high:
+            count += 1
+            if sortdist[mid] == target:
+                return sortdist[mid], count
+            elif sortdist[mid] > target:
+                high = mid - 1
+            elif sortdist[mid] < target:
+                low = mid + 1
     else:
-        return(target, count)
+        print("ошибка выбора поиска")
 
+    return -1, count
 
-def main(target = int(input()), start = int(input()), finish = int(input()), pref = int(input())):
+def main() -> list:
+    "Функция получения ввода с клавиатуры"
+    target = int(input("Введите искомое число = "))
+    start = int(input("Введите начало списка = "))
+    end = int(input("Введите конец списка = "))
+    pref = input("Метод угадывания (linear|binary) = ")
 
-    """ переменная pref отвечает за выбор предпочтительного способа поиска загаданного числа, 1 - бинарный, 2 - линейный """
-    if pref == 1:
-        target, count = binguessnumber(target, start, finish)
-        
-    if pref == 2:
-        target, count = linguessnumber(target, start, finish)
+    dist = list(range(start, end+1))
+
+class TestMath(unittest.TestCase):
+    def test_bin_positive(self):
+        self.assertEqual(guessnumber(7, [2,3,4,5,6,7,8,9,10], "binary"), (6, 1))
+
+    def test_bin_negative_and_positive(self):
+        self.assertEqual(guessnumber(-4, [-6,-5,-4,-3,-2,-1,0,1,2,3,4], "binary"), (-1, 1))
+
+    def test_bin_target_not_in_list(self):
+        self.assertEqual(guessnumber(1, [2,3,4], "binary"), (-1, 2))
+
+    def test_lin_positive(self):
+        self.assertEqual(guessnumber(1, [2,3,4,5,6,7,8,9,10], "linear"), (3, 2))
+
+    def test_lin_negative_and_positive(self):
+        self.assertEqual(guessnumber(-4, [-6,-5,-4,-3,-2,-1,0,1,2,3,4], "linear"), (-4, 3))
+
+    def test_lin_target_not_in_list(self):
+        self.assertEqual(guessnumber(1, [2,3,4], "linear"), (-1, 3))
+
+unittest.main(argv=[''], verbosity=2, exit=False)    
     
-    return(target, count)
 
-print(main())
 
 
